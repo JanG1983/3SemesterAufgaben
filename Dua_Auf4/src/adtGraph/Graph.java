@@ -14,7 +14,31 @@ public class Graph {
 
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
+		boolean run=true;
+		parseGraph();
+		Scanner sc =new Scanner(System.in);
+		//ToDo:
+		//Groß-und Kleinschreibung ignorieren genauso 
+		//wie Leerzeichen ausgabe bei falscher eingabe
+		System.out.println("Bitte zum Verlassen exit eingeben: ");
+		while(run){
+			String console=sc.nextLine();
+			switch (console){
+			case "grad":
+				System.out.println("Bitte den Knotennamen eingeben: ");
+				System.out.println(getGrad(sc.nextLine()));
+				break;
+			case "exit":
+				run=false;
+				break;
+			}
+				
+		}
+		sc.close();
+	
+	}
 
+	private static void parseGraph() throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(FILE));
 		String countStr = sc.nextLine();
 		countStr = countStr.trim();
@@ -28,24 +52,32 @@ public class Graph {
 			knoten.add(vertex);
 		}
 		while (sc.hasNext()) {
-		String[] edgeArray=new String[3];
-		edgeArray=sc.nextLine().split(" ");
-		int startPoint= Integer.parseInt(edgeArray[0]);
-		
-		int endPoint=Integer.parseInt(edgeArray[1]);
-		double weight=Double.parseDouble(edgeArray[2]);
-		Edge ed=new Edge(knoten.get(startPoint-1),knoten.get(endPoint-1),weight);
-		kanten.add(ed);
-		
+			String[] edgeArray = new String[3];
+			edgeArray = sc.nextLine().split(" ");
+			int startPoint = Integer.parseInt(edgeArray[0]);
+
+			int endPoint = Integer.parseInt(edgeArray[1]);
+			double weight = Double.parseDouble(edgeArray[2]);
+			Edge ed = new Edge(knoten.get(startPoint - 1),
+					knoten.get(endPoint - 1), weight);
+			kanten.add(ed);
+
 		}
-		int grad;
-		grad=getGrad(kanten.get(2).v0.name);
-		System.out.println(grad);
 		sc.close();
 	}
 
 	static int getGrad(String knotenname) {
-		
-		return 0;
+		int counter = 0;
+		for (int i = 0; i < kanten.size(); i++) {
+			if (kanten.get(i).v0.name.equals(knotenname)) {
+				counter++;
+
+			} else if (kanten.get(i).v1.name.equals(knotenname)) {
+				counter++;
+			}
+
+		}
+
+		return counter;
 	}
 }
