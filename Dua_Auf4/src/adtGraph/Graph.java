@@ -18,7 +18,7 @@ public class Graph {
 		parseGraph();
 		Scanner sc =new Scanner(System.in);
 		//ToDo:
-		//Groß-und Kleinschreibung ignorieren genauso 
+		//Groߟ-und Kleinschreibung ignorieren genauso 
 		//wie Leerzeichen ausgabe bei falscher eingabe
 		System.out.println("Bitte zum Verlassen exit eingeben: ");
 		while(run){
