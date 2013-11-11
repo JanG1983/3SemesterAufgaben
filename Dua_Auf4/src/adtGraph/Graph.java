@@ -14,28 +14,40 @@ public class Graph {
 
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
-		boolean run=true;
+		boolean run = true;
+		boolean euler;
 		parseGraph();
-		Scanner sc =new Scanner(System.in);
-		//ToDo:
-		//Groߟ-und Kleinschreibung ignorieren genauso 
-		//wie Leerzeichen ausgabe bei falscher eingabe
-		System.out.println("Bitte zum Verlassen exit eingeben: ");
-		while(run){
-			String console=sc.nextLine();
-			switch (console){
+		euler = istEulerGraph();
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("grad :um den Grad des Graphen zu erhalten.");
+		System.out
+				.println("isEuler :um zu pruefen ob der Graph ein Euler Graph ist.");
+		System.out.println("exit :um das Programm zu verlassen.");
+		while (run) {
+			System.out.println("Bitte Befehl eingeben: ");
+			String console = sc.nextLine();
+			switch (console) {
 			case "grad":
 				System.out.println("Bitte den Knotennamen eingeben: ");
 				System.out.println(getGrad(sc.nextLine()));
 				break;
-			case "exit":
-				run=false;
+			case "isEuler":
+				if (euler) {
+					System.out.println("Graph ist ein Euler Graph");
+				} else {
+					System.out.println("Graph ist kein Euler Graph");
+				}
 				break;
+			case "exit":
+				run = false;
+				break;
+
 			}
-				
+
 		}
 		sc.close();
-	
+
 	}
 
 	private static void parseGraph() throws FileNotFoundException {
@@ -64,6 +76,24 @@ public class Graph {
 
 		}
 		sc.close();
+	}
+
+	static boolean istEulerGraph() {
+		boolean checkEuler = false;
+		for (int i = 0; i < kanten.size(); i++) {
+			if ((getGrad(kanten.get(i).v0.name)) % 2 == 1) {
+				checkEuler = false;
+				break;
+
+			} else if (getGrad(kanten.get(i).v1.name) % 2 == 1) {
+				checkEuler = false;
+				break;
+			} else {
+				checkEuler = true;
+			}
+
+		}
+		return checkEuler;
 	}
 
 	static int getGrad(String knotenname) {
