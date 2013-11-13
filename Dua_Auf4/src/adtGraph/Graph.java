@@ -40,6 +40,10 @@ public class Graph {
 					System.out.println("Graph ist kein Euler Graph");
 				}
 				break;
+			case "tiefensuche":
+				System.out.println("Bitte Startknoten eingeben: ");
+				tiefensuche(sc.nextLine().toUpperCase());
+				break;
 			case "exit":
 				run = false;
 				break;
@@ -110,5 +114,55 @@ public class Graph {
 		}
 
 		return counter;
+	}
+	
+	private static void tiefensuche(String startKnoten) //Eingabe des Knotens ab dem gesucht werden soll.
+	{
+		ArrayList<String> nodeVisited = new ArrayList<String>();
+		//nodeVisited.add(startKnoten);
+		boolean test = false;
+		int counter = 1;
+		
+		for(int i=0; i<kanten.size();i++)
+		{
+			System.out.println(kanten.get(i).v0.name);
+			if(kanten.get(i).v0.name.equals(startKnoten))
+			{
+				
+				//System.out.println("test 1");
+				if(!(nodeVisited.contains(kanten.get(i).v0.name)))
+				{
+			    //System.out.println("test2");
+				nodeVisited.add(kanten.get(i).v0.name);
+				startKnoten = kanten.get(i).v1.name;
+				test = true;
+				break;
+				//tiefensuche(kanten.get(i).v1.name);
+				}
+			}
+			if(kanten.get(i).v1.name.equals(startKnoten))
+			{
+				//System.out.println("test 3");
+				if(!(nodeVisited.contains(kanten.get(i).v1.name)))
+				{
+					//System.out.println("test 4");
+				nodeVisited.add(kanten.get(i).v1.name);
+				startKnoten = kanten.get(i).v0.name;
+				test = true;
+				break;
+				//tiefensuche(kanten.get(i).v0.name);
+				}
+			}
+		}
+		if(counter<=11)
+		{
+			tiefensuche(startKnoten);
+		}
+		counter++;
+		
+	for(int j=0;j<nodeVisited.size();j++)
+	{
+		System.out.println(nodeVisited.get(j));
+	}
 	}
 }
