@@ -27,12 +27,13 @@ public class Graph {
 		while (run) {
 			System.out.println("Bitte Befehl eingeben: ");
 			String console = sc.nextLine();
+			console = console.toLowerCase();
 			switch (console) {
 			case "grad":
 				System.out.println("Bitte den Knotennamen eingeben: ");
-				System.out.println(getGrad(sc.nextLine()));
+				System.out.println(getGrad(sc.nextLine().toUpperCase()));
 				break;
-			case "isEuler":
+			case "iseuler":
 				if (euler) {
 					System.out.println("Graph ist ein Euler Graph");
 				} else {
