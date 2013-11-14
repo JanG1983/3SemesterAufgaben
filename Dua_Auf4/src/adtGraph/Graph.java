@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Graph {
@@ -18,6 +20,7 @@ public class Graph {
 		boolean run = true;
 		boolean euler;
 		String startTiefensuche;
+		String startBreitensuche;
 		parseGraph();
 		euler = istEulerGraph();
 		Scanner sc = new Scanner(System.in);
@@ -44,9 +47,20 @@ public class Graph {
 				break;
 			case "tiefensuche":
 				System.out.println("Bitte Startknoten eingeben: ");
-				startTiefensuche=sc.nextLine().toUpperCase();
+				startTiefensuche = sc.nextLine().toUpperCase();
 				nodeVisited.add(startTiefensuche);
 				tiefensuche(startTiefensuche);
+				System.out.println("Besuchte Felder: ");
+				for (int i = 0; i < nodeVisited.size(); i++) {
+					System.out.println(nodeVisited.get(i));
+				}
+				nodeVisited.clear();
+				break;
+			case "br":
+				System.out.println("Bitte Startknoten eingeben: ");
+				startBreitensuche = sc.nextLine().toUpperCase();
+				nodeVisited.add(startBreitensuche);
+				breitensuche(startBreitensuche);
 				System.out.println("Besuchte Felder: ");
 				for (int i = 0; i < nodeVisited.size(); i++) {
 					System.out.println(nodeVisited.get(i));
@@ -124,34 +138,52 @@ public class Graph {
 
 		return counter;
 	}
+
+	private static void tiefensuche(String startKnoten) {
+
+		for (int i = 0; i < kanten.size(); i++) {
+			if (kanten.get(i).v0.name.equals(startKnoten)) {
+				if (!(nodeVisited.contains(kanten.get(i).v1.name))) {
+					nodeVisited.add(kanten.get(i).v1.name);
+					startKnoten = kanten.get(i).v1.name;
+					tiefensuche(startKnoten);
+
+				}
+			} else if (kanten.get(i).v1.name.equals(startKnoten)) {
+				if (!(nodeVisited.contains(kanten.get(i).v0.name))) {
+					nodeVisited.add(kanten.get(i).v0.name);
+					startKnoten = kanten.get(i).v0.name;
+					tiefensuche(startKnoten);
+
+				}
+
+			}
+
+		}
+
+	}
 	
-	private static void tiefensuche(String startKnoten) //Eingabe des Knotens ab dem gesucht werden soll.
-	{
-		
-		
+	private static void breitensuche(String startKnoten){
+		Queue<String> q = new LinkedList<String>();
+
+		String tempNode;
+		String nextNode;
+		q.add(startKnoten);
 		for (int i = 0; i < kanten.size(); i++) {
 			if(kanten.get(i).v0.name.equals(startKnoten)){
-				if(!(nodeVisited.contains(kanten.get(i).v1.name))){
-					nodeVisited.add(kanten.get(i).v1.name);
-					startKnoten=kanten.get(i).v1.name;
-					tiefensuche(startKnoten);
-					
-				}
-			}else if(kanten.get(i).v1.name.equals(startKnoten)){
-				if(!(nodeVisited.contains(kanten.get(i).v0.name))){
-					nodeVisited.add(kanten.get(i).v0.name);
-					startKnoten=kanten.get(i).v0.name;
-					tiefensuche(startKnoten);
-					
-				}
-				
+				nextNode=kanten.get(i).v1.name; 
+				q.add(nextNode);
 			}
 			
 		}
-			
+		while(!q.isEmpty()){
+			System.out.println(q.poll());
+		}
 		
 		
-	
-}
+//		while(!q.isEmpty()){
+//			tempNode=q.
+//		}
+		
 	}
-
+}
