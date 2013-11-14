@@ -14,9 +14,10 @@ import adtGraph.Vertex;
 public class Graph {
 
 	static final String FILE = "src/knoten.txt";
-	static ArrayList<int []> adj = new ArrayList<int []>();
+	static ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>();
 	static ArrayList<String> nodeVisited = new ArrayList<String>();
-	int adjcount;
+	static ArrayList<Integer> edgeAr1 = new ArrayList<Integer>();
+	static ArrayList<Integer> edgeAr2 = new ArrayList<Integer>();
 
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
@@ -98,11 +99,15 @@ public class Graph {
 			edgeArray = sc.nextLine().split(" ");
 			int edge1 = Integer.parseInt(edgeArray[0]);
 			int edge2 = Integer.parseInt(edgeArray[1]);
-			int [] temp;
-			
+			edgeAr1.add(edge1);
+			edgeAr2.add(edge2);
 		}
-
 		sc.close();
+
+			
+		
+		
+		
 	}
 
 	static boolean istEulerGraph() {
