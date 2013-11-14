@@ -168,17 +168,31 @@ public class Graph {
 
 		String tempNode;
 		String nextNode;
-		q.add(startKnoten);
+		String k;
+		
+		q.offer(startKnoten);
 		for (int i = 0; i < kanten.size(); i++) {
 			if(kanten.get(i).v0.name.equals(startKnoten)){
 				nextNode=kanten.get(i).v1.name; 
 				q.add(nextNode);
+			
+			}
+			if(kanten.get(i).v1.name.equals(startKnoten)){
+				nextNode=kanten.get(i).v0.name; 
+				q.add(nextNode);
+				
+				
+			}
+			
+			while(!q.isEmpty()){
+				
+				tempNode=q.poll();
+				nodeVisited.add(tempNode);
+				
 			}
 			
 		}
-		while(!q.isEmpty()){
-			System.out.println(q.poll());
-		}
+		
 		
 		
 //		while(!q.isEmpty()){
