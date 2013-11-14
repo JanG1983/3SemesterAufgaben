@@ -25,10 +25,12 @@ public class Graph {
 		euler = istEulerGraph();
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println("grad :um den Grad des Graphen zu erhalten.");
-		System.out
-				.println("isEuler :um zu pruefen ob der Graph ein Euler Graph ist.");
-		System.out.println("exit :um das Programm zu verlassen.");
+		System.out.println("grad : um den Grad des Graphen zu erhalten.");
+		System.out.println("isEuler : um zu pruefen ob der Graph ein Euler Graph ist.");
+		System.out.println("tiefensuche : um eine Tiefensuche auszuführen.");
+		System.out.println("breitensuche : um eine Breitensuche auszuführen");
+		System.out.println("exit : um das Programm zu verlassen.");
+		
 		while (run) {
 			System.out.println("Bitte Befehl eingeben: ");
 			String console = sc.nextLine();
@@ -56,10 +58,10 @@ public class Graph {
 				}
 				nodeVisited.clear();
 				break;
-			case "br":
+			case "breitensuche":
 				System.out.println("Bitte Startknoten eingeben: ");
 				startBreitensuche = sc.nextLine().toUpperCase();
-				nodeVisited.add(startBreitensuche);
+				// nodeVisited.add(startBreitensuche);
 				breitensuche(startBreitensuche);
 				System.out.println("Besuchte Felder: ");
 				for (int i = 0; i < nodeVisited.size(); i++) {
@@ -162,42 +164,34 @@ public class Graph {
 		}
 
 	}
-	
-	private static void breitensuche(String startKnoten){
+
+	private static void breitensuche(String startKnoten) {
+
 		Queue<String> q = new LinkedList<String>();
 
+		q.add(startKnoten);
+
 		String tempNode;
-		String nextNode;
-		String k;
-		
-		q.offer(startKnoten);
-		for (int i = 0; i < kanten.size(); i++) {
-			if(kanten.get(i).v0.name.equals(startKnoten)){
-				nextNode=kanten.get(i).v1.name; 
-				q.add(nextNode);
-			
+
+		while (!(q.isEmpty())) {
+			tempNode = q.poll();
+			nodeVisited.add(tempNode);
+			for (int i = 0; i < kanten.size(); i++) {
+
+				if (kanten.get(i).v0.name.equals(tempNode)
+						&& !nodeVisited.contains(kanten.get(i).v1.name)
+						&& !q.contains(kanten.get(i).v1.name)) {
+					q.add(kanten.get(i).v1.name);
+
+				} else if (kanten.get(i).v1.name.equals(tempNode)
+						&& !nodeVisited.contains(kanten.get(i).v0.name)
+						&& !q.contains(kanten.get(i).v0.name)) {
+					q.add(kanten.get(i).v0.name);
+				}
+
 			}
-			if(kanten.get(i).v1.name.equals(startKnoten)){
-				nextNode=kanten.get(i).v0.name; 
-				q.add(nextNode);
-				
-				
-			}
-			
-			while(!q.isEmpty()){
-				
-				tempNode=q.poll();
-				nodeVisited.add(tempNode);
-				
-			}
-			
+
 		}
-		
-		
-		
-//		while(!q.isEmpty()){
-//			tempNode=q.
-//		}
-		
+
 	}
 }
