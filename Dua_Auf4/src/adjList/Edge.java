@@ -1,16 +1,16 @@
 package adjList;
 
+import java.util.ArrayList;
+
 
 public class Edge {
     
-    Vertex v0;
-    Vertex v1;
+	ArrayList<Integer> v;
     double w;
     
-	public Edge(Vertex v0, Vertex v1, double w) {
+	public Edge(ArrayList<Integer> v , double w) {
 		super();
-		this.v0 = v0;
-		this.v1 = v1;
+		this.v = v;
 		this.w = w;
 	}
     

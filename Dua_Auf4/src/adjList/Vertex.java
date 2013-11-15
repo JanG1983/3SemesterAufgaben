@@ -1,5 +1,6 @@
 package adjList;
 
+
 public class Vertex {
 
 	int id;
