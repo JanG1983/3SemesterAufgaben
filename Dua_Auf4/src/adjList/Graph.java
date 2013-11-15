@@ -17,11 +17,13 @@ public class Graph {
 	static ArrayList<Integer> nodeVisited = new ArrayList<Integer>();
 	static ArrayList<Integer> leftEdge = new ArrayList<Integer>();
 	static ArrayList<Integer> rightEdge = new ArrayList<Integer>();
+	static int origin;
 
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
 		boolean run = true;
 		boolean euler;
+		
 		String startTiefensuche;
 		String startBreitensuche;
 		parseGraph();
@@ -52,7 +54,8 @@ public class Graph {
 			case "t":
 				System.out.println("Bitte Startknoten eingeben: ");
 				startTiefensuche = sc.nextLine().toUpperCase();
-				nodeVisited.add(findId(startTiefensuche));
+				origin = findId(startTiefensuche);
+				nodeVisited.add(origin);
 				tiefensuche(findId(startTiefensuche));
 				System.out.println("Besuchte Felder: ");
 				for (int i = 0; i < nodeVisited.size(); i++) {
@@ -172,20 +175,44 @@ public class Graph {
 //			}
 //
 //		}
+		
+		while(nodeVisited.size()<kanten.size())
+		{
+			
+			int test=0;
+		System.out.println("anfang");
 		int tempNode = getNextNode(startKnoten);
 		if(!(nodeVisited.contains(tempNode)))
 		{
 			nodeVisited.add(tempNode);
+			//System.out.println(tempNode);
 			startKnoten = tempNode;
-			tiefensuche(startKnoten);
+			//tiefensuche(startKnoten);
 		}
-		else 
-		{
-			
-			
-		}
-
 		
+		
+		for(int i=0;i<kanten.get(tempNode-1).size();i++)
+		{
+			if(nodeVisited.contains(kanten.get(tempNode-1).get(i)))
+			{
+				System.out.println(nodeVisited.toString());
+				System.out.println("test");
+				test++;
+			}
+			System.out.println("besucht: " + nodeVisited.toString());
+			System.out.println("test: " + test);
+			System.out.println("größe: " + kanten.get(tempNode-1).size());
+			System.out.println("-----------------------------");
+			if(test==(kanten.get(tempNode-1).size()))
+			{
+				System.out.println("reset");
+				startKnoten=origin;
+			}
+		}
+		}
+		
+
+
 
 	}
 
