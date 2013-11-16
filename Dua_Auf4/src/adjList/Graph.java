@@ -18,12 +18,13 @@ public class Graph {
 	static ArrayList<Integer> leftEdge = new ArrayList<Integer>();
 	static ArrayList<Integer> rightEdge = new ArrayList<Integer>();
 	static int origin;
+	static int count = 1;
 
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
 		boolean run = true;
 		boolean euler;
-		
+
 		String startTiefensuche;
 		String startBreitensuche;
 		parseGraph();
@@ -51,7 +52,7 @@ public class Graph {
 					System.out.println("Graph ist kein Euler Graph");
 				}
 				break;
-			case "t":
+			case "tiefensuche":
 				System.out.println("Bitte Startknoten eingeben: ");
 				startTiefensuche = sc.nextLine().toUpperCase();
 				origin = findId(startTiefensuche);
@@ -60,12 +61,10 @@ public class Graph {
 				System.out.println("Besuchte Felder: ");
 				for (int i = 0; i < nodeVisited.size(); i++) {
 					for (int j = 0; j < knoten.size(); j++) {
-						if(nodeVisited.get(i).equals(knoten.get(j).id))
-						{
-						System.out.println(knoten.get(j).name);
+						if (nodeVisited.get(i).equals(knoten.get(j).id)) {
+							System.out.println(knoten.get(j).name);
+						}
 					}
-					}
-					
 				}
 				System.out.println(nodeVisited.size());
 				nodeVisited.clear();
@@ -74,7 +73,7 @@ public class Graph {
 				System.out.println("Bitte Startknoten eingeben: ");
 				startBreitensuche = sc.nextLine().toUpperCase();
 				// nodeVisited.add(startBreitensuche);
-				//breitensuche(startBreitensuche);
+				// breitensuche(startBreitensuche);
 				System.out.println("Besuchte Felder: ");
 				for (int i = 0; i < nodeVisited.size(); i++) {
 					System.out.println(nodeVisited.get(i));
@@ -111,25 +110,22 @@ public class Graph {
 			leftEdge.add(Integer.parseInt(edgeArray[0]));
 			rightEdge.add(Integer.parseInt(edgeArray[1]));
 		}
-		int count=1;
-		while(count<=anzahl)
-		{
-		ArrayList<Integer> temp = new ArrayList<Integer>();
-		
-		for (int i = 0; i < leftEdge.size(); i++) {
-			if(leftEdge.get(i)==count)
-			{
-				temp.add(rightEdge.get(i));
+		int count = 1;
+		while (count <= anzahl) {
+			ArrayList<Integer> temp = new ArrayList<Integer>();
+
+			for (int i = 0; i < leftEdge.size(); i++) {
+				if (leftEdge.get(i) == count) {
+					temp.add(rightEdge.get(i));
+				}
 			}
-		}
-		for (int i = 0; i < rightEdge.size(); i++) {
-			if(rightEdge.get(i)==count)
-			{
-				temp.add(leftEdge.get(i));
+			for (int i = 0; i < rightEdge.size(); i++) {
+				if (rightEdge.get(i) == count) {
+					temp.add(leftEdge.get(i));
+				}
 			}
-		}
-		kanten.add(count-1, temp);
-		count++;
+			kanten.add(count - 1, temp);
+			count++;
 		}
 		for (int i = 0; i < kanten.size(); i++) {
 			System.out.println(kanten.get(i));
@@ -141,8 +137,7 @@ public class Graph {
 		boolean checkEuler = true;
 
 		for (int i = 0; i < kanten.size(); i++) {
-			if(kanten.get(i).size()%2==1)
-			{
+			if (kanten.get(i).size() % 2 == 1) {
 				checkEuler = false;
 			}
 		}
@@ -151,107 +146,61 @@ public class Graph {
 
 	static int getGrad(String knotenname) {
 		int tempId = findId(knotenname);
-		return (kanten.get(tempId-1).size());
+		return (kanten.get(tempId - 1).size());
 	}
 
 	private static void tiefensuche(int startKnoten) {
 
-//		for (int i = 0; i < leftEdge.size(); i++) {
-//			if (getStartNode(i).equals(startKnoten)) {
-//				if (!(nodeVisited.contains(getNextNode(i)))) {
-//					nodeVisited.add(getNextNode(i));
-//					startKnoten = getNextNode(i);
-//					tiefensuche(startKnoten);
-//
-//				}
-//			} else if (getNextNode(i).equals(startKnoten)) {
-//				if (!(nodeVisited.contains(getStartNode(i)))) {
-//					nodeVisited.add(getStartNode(i));
-//					startKnoten = getStartNode(i);
-//					tiefensuche(startKnoten);
-//
-//				}
-//
-//			}
-//
-//		}
-		
-		while(nodeVisited.size()<kanten.size())
-		{
-			
-			int test=0;
-		System.out.println("anfang");
-		int tempNode = getNextNode(startKnoten);
-		if(!(nodeVisited.contains(tempNode)))
-		{
-			nodeVisited.add(tempNode);
-			//System.out.println(tempNode);
-			startKnoten = tempNode;
-			//tiefensuche(startKnoten);
-		}
-		
-		
-		for(int i=0;i<kanten.get(tempNode-1).size();i++)
-		{
-			if(nodeVisited.contains(kanten.get(tempNode-1).get(i)))
-			{
-				System.out.println(nodeVisited.toString());
-				System.out.println("test");
-				test++;
+		while (nodeVisited.size() < kanten.size()) {
+
+			int tempNode = getNextNode(startKnoten);
+			if (!(nodeVisited.contains(tempNode))) {
+				nodeVisited.add(tempNode);
+				startKnoten = tempNode;
+				count = 1;
 			}
-			System.out.println("besucht: " + nodeVisited.toString());
-			System.out.println("test: " + test);
-			System.out.println("größe: " + kanten.get(tempNode-1).size());
-			System.out.println("-----------------------------");
-			if(test==(kanten.get(tempNode-1).size()))
-			{
-				System.out.println("reset");
-				startKnoten=origin;
+			if (nodeVisited.size() < kanten.size()) {
+				if (nodeVisited.containsAll(kanten.get(tempNode - 1))) {
+					startKnoten = nodeVisited.get(nodeVisited.size() - count);
+					count++;
+				}
 			}
 		}
-		}
-		
-
-
-
 	}
 
-	
-//	private static void breitensuche(String startKnoten) {
-//		Queue<String> q = new LinkedList<String>();
-//		String tempNode;
-//		q.add(startKnoten);
-//		while (!(q.isEmpty())) {
-//			tempNode = q.poll();
-//			nodeVisited.add(tempNode);
-//			for (int i = 0; i < leftEdge.size(); i++) {
-//
-//				if (getStartNode(i).equals(tempNode)
-//						&& !nodeVisited.contains(getNextNode(i))
-//						&& !q.contains(getNextNode(i))) {
-//					q.add(getNextNode(i));
-//
-//				} else if (getNextNode(i).equals(tempNode)
-//						&& !nodeVisited.contains(getStartNode(i))
-//						&& !q.contains(getStartNode(i))) {
-//					q.add(getStartNode(i));
-//				}
-//
-//			}
-//		}
-//
-//	}
+	// private static void breitensuche(String startKnoten) {
+	// Queue<String> q = new LinkedList<String>();
+	// String tempNode;
+	// q.add(startKnoten);
+	// while (!(q.isEmpty())) {
+	// tempNode = q.poll();
+	// nodeVisited.add(tempNode);
+	// for (int i = 0; i < leftEdge.size(); i++) {
+	//
+	// if (getStartNode(i).equals(tempNode)
+	// && !nodeVisited.contains(getNextNode(i))
+	// && !q.contains(getNextNode(i))) {
+	// q.add(getNextNode(i));
+	//
+	// } else if (getNextNode(i).equals(tempNode)
+	// && !nodeVisited.contains(getStartNode(i))
+	// && !q.contains(getStartNode(i))) {
+	// q.add(getStartNode(i));
+	// }
+	//
+	// }
+	// }
+	//
+	// }
 	private static int findId(String startKnoten) {
-		int tempId=1;
+		int tempId = 1;
 		for (int i = 0; i < knoten.size(); i++) {
-			if(knoten.get(i).name.equals(startKnoten))
-			{
+			if (knoten.get(i).name.equals(startKnoten)) {
 				tempId = knoten.get(i).id;
 			}
 		}
 		return tempId;
 	}
-
 
 	public static String getStartNode(int index) {
 
@@ -260,10 +209,10 @@ public class Graph {
 	}
 
 	public static int getNextNode(int id) {
-		int temp = 1;
-		temp = id-1;
-		int rnd = (int) ((Math.random()*(kanten.get(temp).size())));
-		return (kanten.get(temp).get(rnd));
+
+		int rnd = (int) ((Math.random() * (kanten.get(id - 1).size())));
+		System.out.println(rnd);
+		return (kanten.get(id - 1).get(rnd));
 
 	}
 }
