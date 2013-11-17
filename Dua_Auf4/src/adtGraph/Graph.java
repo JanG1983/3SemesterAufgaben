@@ -15,8 +15,7 @@ public class Graph {
 	static ArrayList<Edge> kanten = new ArrayList<Edge>();
 	static ArrayList<String> nodeVisited = new ArrayList<String>();
 
-	public static void main(String[] args) throws FileNotFoundException,
-			IOException {
+	public static void main(String[] args) throws IOException {
 		boolean run = true;
 		boolean euler;
 		String startTiefensuche;

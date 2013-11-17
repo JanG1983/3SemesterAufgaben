@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -64,7 +63,6 @@ public class Graph {
 						}
 					}
 				}
-				System.out.println(nodeVisited.size());
 				nodeVisited.clear();
 				break;
 			case "breitensuche":
@@ -128,9 +126,6 @@ public class Graph {
 			kanten.add(count - 1, temp);
 			count++;
 		}
-		for (int i = 0; i < kanten.size(); i++) {
-			System.out.println(kanten.get(i));
-		}
 		sc.close();
 	}
 
@@ -169,29 +164,27 @@ public class Graph {
 		}
 	}
 
-	 private static void breitensuche(int startKnoten) {
-	
-	 Queue<Integer> q = new LinkedList<Integer>();
-	 int tempNode;
-	 q.add(startKnoten);
-	 
-	 
-	 while (!(q.isEmpty())) {
-	 tempNode = q.poll();
-	 nodeVisited.add(tempNode); 
-	 
-	 for (int i = 0; i < kanten.get(tempNode-1).size(); i++) {
-		if(!(nodeVisited.contains(kanten.get(tempNode-1).get(i))) && !(q.contains(kanten.get(tempNode-1).get(i))))
-		{
-		 q.add(kanten.get(tempNode-1).get(i));
+	private static void breitensuche(int startKnoten) {
+
+		Queue<Integer> q = new LinkedList<Integer>();
+		int tempNode;
+		q.add(startKnoten);
+
+		while (!(q.isEmpty())) {
+			tempNode = q.poll();
+			nodeVisited.add(tempNode);
+
+			for (int i = 0; i < kanten.get(tempNode - 1).size(); i++) {
+				if (!(nodeVisited.contains(kanten.get(tempNode - 1).get(i)))
+						&& !(q.contains(kanten.get(tempNode - 1).get(i)))) {
+					q.add(kanten.get(tempNode - 1).get(i));
+				}
+			}
+
 		}
+
 	}
-	 
-	 }
-		 
-		 
-	
-	 }
+
 	private static int findId(String startKnoten) {
 		int tempId = 1;
 		for (int i = 0; i < knoten.size(); i++) {
@@ -211,7 +204,6 @@ public class Graph {
 	public static int getNextNode(int id) {
 
 		int rnd = (int) ((Math.random() * (kanten.get(id - 1).size())));
-		System.out.println(rnd);
 		return (kanten.get(id - 1).get(rnd));
 
 	}
