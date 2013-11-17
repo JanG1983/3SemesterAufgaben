@@ -17,7 +17,6 @@ public class Graph {
 	static ArrayList<Integer> nodeVisited = new ArrayList<Integer>();
 	static ArrayList<Integer> leftEdge = new ArrayList<Integer>();
 	static ArrayList<Integer> rightEdge = new ArrayList<Integer>();
-	static int origin;
 	static int count = 1;
 
 	public static void main(String[] args) throws FileNotFoundException,
@@ -55,8 +54,7 @@ public class Graph {
 			case "tiefensuche":
 				System.out.println("Bitte Startknoten eingeben: ");
 				startTiefensuche = sc.nextLine().toUpperCase();
-				origin = findId(startTiefensuche);
-				nodeVisited.add(origin);
+				nodeVisited.add(findId(startTiefensuche));
 				tiefensuche(findId(startTiefensuche));
 				System.out.println("Besuchte Felder: ");
 				for (int i = 0; i < nodeVisited.size(); i++) {
@@ -72,11 +70,14 @@ public class Graph {
 			case "breitensuche":
 				System.out.println("Bitte Startknoten eingeben: ");
 				startBreitensuche = sc.nextLine().toUpperCase();
-				// nodeVisited.add(startBreitensuche);
-				// breitensuche(startBreitensuche);
+				breitensuche(findId(startBreitensuche));
 				System.out.println("Besuchte Felder: ");
 				for (int i = 0; i < nodeVisited.size(); i++) {
-					System.out.println(nodeVisited.get(i));
+					for (int j = 0; j < knoten.size(); j++) {
+						if (nodeVisited.get(i).equals(knoten.get(j).id)) {
+							System.out.println(knoten.get(j).name);
+						}
+					}
 				}
 				nodeVisited.clear();
 				break;
@@ -168,30 +169,29 @@ public class Graph {
 		}
 	}
 
-	// private static void breitensuche(String startKnoten) {
-	// Queue<String> q = new LinkedList<String>();
-	// String tempNode;
-	// q.add(startKnoten);
-	// while (!(q.isEmpty())) {
-	// tempNode = q.poll();
-	// nodeVisited.add(tempNode);
-	// for (int i = 0; i < leftEdge.size(); i++) {
-	//
-	// if (getStartNode(i).equals(tempNode)
-	// && !nodeVisited.contains(getNextNode(i))
-	// && !q.contains(getNextNode(i))) {
-	// q.add(getNextNode(i));
-	//
-	// } else if (getNextNode(i).equals(tempNode)
-	// && !nodeVisited.contains(getStartNode(i))
-	// && !q.contains(getStartNode(i))) {
-	// q.add(getStartNode(i));
-	// }
-	//
-	// }
-	// }
-	//
-	// }
+	 private static void breitensuche(int startKnoten) {
+	
+	 Queue<Integer> q = new LinkedList<Integer>();
+	 int tempNode;
+	 q.add(startKnoten);
+	 
+	 
+	 while (!(q.isEmpty())) {
+	 tempNode = q.poll();
+	 nodeVisited.add(tempNode); 
+	 
+	 for (int i = 0; i < kanten.get(tempNode-1).size(); i++) {
+		if(!(nodeVisited.contains(kanten.get(tempNode-1).get(i))) && !(q.contains(kanten.get(tempNode-1).get(i))))
+		{
+		 q.add(kanten.get(tempNode-1).get(i));
+		}
+	}
+	 
+	 }
+		 
+		 
+	
+	 }
 	private static int findId(String startKnoten) {
 		int tempId = 1;
 		for (int i = 0; i < knoten.size(); i++) {
